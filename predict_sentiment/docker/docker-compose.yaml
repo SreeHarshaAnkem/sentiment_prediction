@@ -1,0 +1,27 @@
+version: "3.7"
+
+services:
+
+  flask:
+    image: sentiment_data_prep
+    container_name: flask
+    restart: always
+    expose:
+      - 8080
+
+  nginx:
+    image: sentiment_nginx
+    container_name: nginx
+    restart: always
+    ports:
+      - "80:80"
+
+  serving:
+    image: sentiment_model
+    container_name: sentiment_model
+    restart: always
+    ports:
+      - "8501:8501"
+    depends_on:
+      - nginx
+      - flask
